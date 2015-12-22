@@ -70,14 +70,6 @@
 </li>
 {% endif %}
 
-{% if site.theme.instagram %}
-<li>
-	<a href="http://instagram.com/{{ site.theme.instagram }}" title="{{ site.theme.str_follow_on }} Instagram">
-		<i class="fa fa-fw fa-instagram"></i>
-	</a>
-</li>
-{% endif %}
-
 {% if site.theme.linkedin %}
 <li>
 	<a href="{{ site.theme.linkedin }}" title="{{ site.theme.str_follow_on }} LinkedIn">
@@ -98,6 +90,14 @@
 <li>
 	<a href="https://www.reddit.com/user/{{ site.theme.reddit }}" title="{{ site.theme.str_follow_on }} Reddit">
 		<i class="fa fa-fw fa-reddit"></i>
+	</a>
+</li>
+{% endif %}
+
+{% if site.theme.slideshare %}
+<li>
+	<a href="http://www.slideshare.net/{{ site.theme.slideshare }}" title="{{ site.theme.str_follow_on }} SlideShare">
+		<i class="fa fa-fw fa-slideshare"></i>
 	</a>
 </li>
 {% endif %}
@@ -138,6 +138,14 @@
 <li>
 	<a href="https://twitter.com/{{ site.theme.twitter }}" title="{{ site.theme.str_follow_on }} Twitter">
 		<i class="fa fa-fw fa-twitter"></i>
+	</a>
+</li>
+{% endif %}
+
+{% if site.theme.instagram %}
+<li>
+	<a href="http://instagram.com/{{ site.theme.instagram }}" title="{{ site.theme.str_follow_on }} Instagram">
+		<i class="fa fa-fw fa-instagram"></i>
 	</a>
 </li>
 {% endif %}

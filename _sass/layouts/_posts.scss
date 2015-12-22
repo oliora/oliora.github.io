@@ -2,9 +2,21 @@ article,
 .comments {
   @extend %padding-regular;
   border-bottom: 1px solid $border-color;
-  float: left;
+  max-width: 980px;
+  margin-right: auto;
+  margin-left: auto;
   width: 100%;
 }
+
+.posts
+{
+  border-bottom: 1px solid $border-color;
+  max-width: 980px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+
 article {
   header {
     margin-bottom: 6%;

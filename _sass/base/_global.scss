@@ -76,6 +76,31 @@ pre,
 samp {
   margin: 1em 0;
 }
+
+pre,
+code {
+  font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+}
+
+:not(pre)>code {
+  padding: 0.2em 0px;
+  margin: 0px;
+  font-size: 80%;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+}
+
+:not(pre)>code:before, :not(pre)>code:after {
+  letter-spacing:-0.2em;
+  content:"\00a0";
+}
+
+pre {
+  font-size: 80%;
+  padding: 0.5em;
+  line-height: 1.45;
+}
+
 dt {
   font-weight: bold;
 }
@@ -92,6 +117,7 @@ p, ol, ul, dl, .math-display {
 }
 ol, ul {
   list-style-position: inside;
+  margin-left: 0.5em;
 }
 hr {
   border: 0;
