@@ -3,12 +3,11 @@ layout: default
 ---
 
 <div class="home">
-  {% if site.theme.header_text %}
   <div class="call-out" 
-  style="background-image: url('{{ site.baseurl }}/{{ site.theme.header_text_feature_image }}')">
-    {{ site.theme.header_text }}
+    style="background-image: url('{{ site.baseurl }}/{{ site.theme.header_text_feature_image }}')">
+     <quote>"There are only two kinds of languages: the ones people complain about and the ones nobody uses."</quote>
+     <p>&mdash; Bjarne Stroustrup</p>
   </div>
-  {% endif %}
 
   <div class="posts">
     {% for post in paginator.posts %}
