@@ -40,6 +40,9 @@
       float: left;
       margin-right: 0.4em;
     }
+    li a.page-link {
+      margin-right: 0.8em;
+    }
     @media (max-width: 1100px) {
       ul {
         display: inline-block;
