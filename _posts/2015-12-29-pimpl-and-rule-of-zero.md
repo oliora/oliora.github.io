@@ -373,8 +373,7 @@ namespace spimpl {
     }
 
     template<class T, class Deleter = void (*)(T*), class Copier = T*(*)(T*)>
-    class impl_ptr
-    {
+    class impl_ptr {
     public:
         template<class U, class D, class C>
         impl_ptr(U *u, D&& deleter, C&& copier) noexcept
@@ -411,8 +410,7 @@ namespace spimpl {
     // Constructs an object of type T and wraps it and related
     // default deleter and copier in `impl_ptr`
     template<class T, class... Args>
-    inline impl_ptr<T> make_impl(Args&&... args)
-    {
+    inline impl_ptr<T> make_impl(Args&&... args) {
         return impl_ptr<T>(
             new T(std::forward<Args>(args)...),
                 &details::default_delete<T>,
