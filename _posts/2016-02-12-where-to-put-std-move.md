@@ -47,12 +47,12 @@ From there we can figure out the following:
   (An [*xvalue*](http://en.cppreference.com/w/cpp/language/value_category) if you want to be more precise)
   
 It's quite easy to remember: non-static non-reference data members are part of the object (it's a *composition*), so they are the same value category as the object itself, i.e. *rvalues* if the object is an *rvalue*.
-In contrast, things pointed by reference and static data members don't belong to the object thus they don't depend on the object's value category, they are always *lvalues*.
+In contrast, things pointed by a reference members and static data members don't belong to the object thus ones don't depend on the object's value category, ones are always *lvalues*.
 
 ## Which one to use?
 
 The first expression `std::move(object.member)` is much stronger than the second one.
-Use it when you need to **force** move semantics for the member itself whatever the member is and you really understand all the consequences of it. (Here imagine an unexpected move from a shared object!). If you need to allow move semantics for a member of an *rvalue* referenced `object`, use `std::move(object).member` expression instead.
+Use it when you need to **force** move semantics for the member itself whatever the member is and you really understand all the consequences of it. (Here imagine an unexpected move from a shared object!).
 
 The second expression `std::move(object).member` is safer and more intelligent: it forces only the object itself to became an *rvalue*, then (the safe) member access rules do the rest. Rather than force move semantics for the member, the expression gently **allows** it.
 It is safe operation as long as you know that the object is a temporary, doesn't matter what the member is.
@@ -99,8 +99,8 @@ struct Window {
     
     Window(WidgetCfg && w) // Constructor accepting a temporary WidgetCfg so we are safe to move from it
     // Either
-    : config_name_(std::move(w.config_name_)) // [1] move from global variable, leaves one in empty
-                                              //     or even dangerous-to-use 'moved from' state!
+    : config_name_(std::move(w.config_name_)) // [1] move from the global variable, leaves one in the
+                                              //     (empty or even dangerous to use) 'moved from' state!
     // or
     : config_name_(std::move(w).config_name_) // [2] not a temporary any more, so makes a copy rather than move.
                                               //     Not so effective but still safe!
@@ -112,3 +112,11 @@ struct Window {
 
 Thus whenever it's possible, instead of `std::move(object.member)` use `std::move(object).member`, because the latter one stays safe
 no matter how the member definition is changed.
+
+
+UPD
+
+There are more discussions on the post topic:
+
+- [A tentative notion of move-independence](http://ldionne.com/2016/02/17/a-tentative-notion-of-move-independence/) post by Louis Dionne
+- [Reddit](https://www.reddit.com/r/cpp/comments/45w3fs/whats_the_difference_between_stdmoveobjectmember/)
