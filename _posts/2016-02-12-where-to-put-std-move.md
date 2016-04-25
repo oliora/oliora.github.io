@@ -120,3 +120,9 @@ There are more discussions on the post topic:
 
 - [A tentative notion of move-independence](http://ldionne.com/2016/02/17/a-tentative-notion-of-move-independence/) post by Louis Dionne
 - [Reddit](https://www.reddit.com/r/cpp/comments/45w3fs/whats_the_difference_between_stdmoveobjectmember/)
+
+UPD2
+
+There is my slides for a short presentation based on the article:
+
+- [Where to type `std::move`?](http://www.slideshare.net/oliora/where-to-typestdmove)
