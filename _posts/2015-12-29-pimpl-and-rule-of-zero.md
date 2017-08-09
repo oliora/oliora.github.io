@@ -13,7 +13,7 @@ using an idea taken from the Rule of Zero.
 Table of contents:
 
 * [Classic PIMPL](#classic-pimpl)
-* [Scott Meyers' C++11 PIMPL](#scott-meyers-39-c-11-pimpl)
+* [Scott Meyers' C++11 PIMPL](#scott-meyers-c11-pimpl)
 * [Rule Of Zero](#rule-of-zero)
 * [PIMPL Without Special Members Defined](#pimpl-without-special-members-defined)
  * [Noncopyable PIMPL](#noncopyable-pimpl)
