@@ -68,7 +68,6 @@ gems: ["jekyll-paginate"]
 
 # BUILD SETTINGS
 markdown: kramdown
-#markdown: redcarpet
 #highlighter: rouge
 kramdown:
   input: GFM

@@ -1,4 +1,2 @@
 source 'https://rubygems.org'
-gem 'redcarpet'
-gem 'github-pages'
-gem 'wdm', '~> 0.1.0' if Gem.win_platform?
+gem 'github-pages', group: :jekyll_plugins
