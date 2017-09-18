@@ -10,10 +10,9 @@
   @media (max-width: 1000px) {
     padding: $padding-small * 1.5 $padding-large / 1.6;
   }
-}
-%link-hover {
-  text-decoration: underline;
-  color: darken($link-color, 15%);
+  @media (max-width: 576px) {
+    padding: $padding-small;
+  }
 }
 // Buttons
 .button {
@@ -23,11 +22,22 @@
   margin: 1em 0;
   padding: 0.5em 0.75em;
 }
-a.button:hover {
-  background: $link-color;
-  border: 1px solid $link-color;
-  color: $background-color;
-  text-decoration: none;
+a.button {
+  @extend .button-link;
+}
+.button-link {
+  &:hover {
+    background: $link-color;
+    border: 1px solid $link-color;
+    color: $background-color;
+    text-decoration: none;
+  }
+}
+.body-link {
+  &:hover {
+    text-decoration: underline;
+    color: darken($link-color, 15%);
+  }
 }
 // States
 .disabled {
