@@ -10,6 +10,7 @@ Hi! My name is **Andrey Upadyshev**. You may also know me as **Oliora**.
 
 I'm a professional software developer for almost 15 years,
 passionated about C++, software architecture and high performance.
+Since 2016 I work for Amazon Web Services.
 
 I'm notedly interested about continued revolution of the C++ language which already stated in C++11 and C++14 standards and now developing C++17 one.
 The language was given a second breath. It was so significatly changed that it is almost a new language which we have to learn from scratch.
@@ -37,9 +38,11 @@ I was born in Saint-Petersburg, Russia in 1981.
 
 In 2002 I got Bachelor degree in Computer Science at *Saint Petersburg National Research University of Information Technologies, Mechanics and Optics*.
 
-In 2014 me with my family moved to Netherlands.
+I'm married and have three kids.
 
-Apart from developing I like to cook, travel and enjoy good wines.
+In 2014 I moved to Netherlands.
+
+Apart from developing I like to cook, travel, photograph, explore arts and enjoy good wines.
 
 # Contacts
 
