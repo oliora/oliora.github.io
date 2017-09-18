@@ -62,6 +62,14 @@
 </li>
 {% endif %}
 
+{% if site.theme_settings.slideshare %}
+<li>
+	<a href="https://www.slideshare.com/{{ site.theme_settings.slideshare }}" title="{{ site.theme_settings.str_follow_on }} SlideShare">
+		<i class="fa fa-fw fa-slideshare"></i>
+	</a>
+</li>
+{% endif %}
+
 {% if site.theme_settings.google_plus %}
 <li>
 	<a href="https://plus.google.com/{{ site.theme_settings.google_plus }}" title="{{ site.theme_settings.str_follow_on }} Google+">
