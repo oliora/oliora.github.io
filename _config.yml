@@ -6,12 +6,16 @@ theme_settings:
   # Meta
   title: Hot C++ Blog
   avatar: # avatar.png
-  gravatar: # "09ca143af901cc5bf8ba6ca6019bdd5f" # Email MD5 hash
+  gravatar: 09ca143af901cc5bf8ba6ca6019bdd5f" # Email MD5 hash
   description: "Andrey Upadyshev's blog about C++11, C++14 and C++17." # used by search engines
 
   # Header and footer text
-  header_text:
+  header_text: >
+    <q style="font-style:italic;">There are only two kinds of languages: the ones people complain about and the ones nobody uses.</q>
+    <p style="text-align:right">&mdash; Bjarne Stroustrup</p>
+
   header_text_feature_image:
+
   footer_text: >
    Hot C++ Blog is created by <a href="/about/">Andrey Upadyshev</a>
    </br>
