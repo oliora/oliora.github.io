@@ -1,9 +1,8 @@
-# SITE CONFIGURATION
-baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://oliora.github.io" # the base hostname & protocol for your site
+baseurl: "" # the subpath of your site, e.g. /blog/
 
 # THEME-SPECIFIC CONFIGURATION
-theme:
+theme_settings:
   # Meta
   title: Hot C++ Blog
   avatar: # avatar.png
@@ -21,6 +20,7 @@ theme:
   # Icons
   rss: true
   email_address: oliora@gmail.com
+
   behance:
   bitbucket:
   dribbble:
@@ -28,7 +28,7 @@ theme:
   flickr:
   github: "oliora"
   google_plus:
-  #instagram: "oliora"
+  instagram: "oliora"
   linkedin: "https://www.linkedin.com/pub/andrey-upadyshev/59/497/321" # Full URL
   pinterest:
   reddit:
@@ -44,7 +44,7 @@ theme:
   # Scripts
   google_analytics: UA-71841148-1
   disqus_shortname: oliora-github-io
-  katex: true # Enable if using math markup
+  katex: false # Enable if using math markup
 
   # Localization strings
   str_follow_on: "Follow on"
@@ -57,14 +57,14 @@ theme:
   # Colours, typography and padding
   # Open the "_sass > base" folder, and open "_variables.scss"
   google_fonts: "Source+Sans+Pro:400,700,700italic,400italic"
-  
+
   # Post navigation
   post_navigation: false
 
 # PAGINATION
 paginate: 5
 paginate_path: "blog/page:num"
-gems: ["jekyll-paginate"]
+plugins: ["jekyll-paginate"]
 
 # BUILD SETTINGS
 markdown: kramdown
@@ -75,7 +75,7 @@ kramdown:
   syntax_highlighter: rouge
 #  syntax_highlighter_opts:
 #    line_numbers: true
-    
+
 sass:
   sass_dir: _sass
   style: :compressed
