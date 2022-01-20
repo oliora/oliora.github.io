@@ -35,6 +35,6 @@ template<class T>
 auto queue::pop() -> expected<pair<T, contention_type>, queue_op_error>;
 ```
 
-In conclusion, I don't think that there is a room for `status_value` as one of the a *standard fundamental* types for error handling. `status_value` does not replace `expected` so the latter will be eventually added anyway. In the meantime, `expected` class covers more use-cases including ones where `status_value` would be used so it's clearly a more universal. And I'd rather see less number of error handling approaches in the C++ standard than other way around. Remember, what's added to the standard stays in the standard[^1]!
+In conclusion, I don't think that there is a room for `status_value` as one of the a *standard fundamental* types for error handling. `status_value` does not replace `expected` so the latter will be eventually added anyway. In the meantime, `expected` class covers more use-cases including ones where `status_value` would be used so it's clearly more universal. And I'd rather see less number of error handling approaches in the C++ standard than other way around. Remember, what's added to the standard stays in the standard[^1]!
 
 [^1]: Rare exceptions exist
