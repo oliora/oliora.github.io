@@ -33,4 +33,4 @@ auto queue::pop() -> expected<pair<T, contention_type>, queue_op_error>;
 
 In conclusion, I don't think that there is a room for new *standard* class `status_value`. Adding `status_value` does not replace `expected` so the latter will be eventually added anyway. In the meantime, `expected` class covers more use-cases including ones where `status_value` can be used so it's clearly a more universal. And I'd rather see less number of error handling approaches in the C++ standard than other way around. Remember, what's added to the standard stays in the standard[^1]!
 
-[^1]: Rare exception exists
+[^1]: Rare exceptions exist
