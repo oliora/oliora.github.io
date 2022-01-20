@@ -19,7 +19,7 @@ The `status_value` proposal admits that proposed design is very close to long ti
 
 I think that justification for `status_value` does not hold well.
 
-The first justification point looks like the author's misunderstanding of `expected` concept what is partially caused by `expected` wording that opposes expected value and unexpected error. In fact, `expected` is well suited for expected errors. It worth to mention that `status_value` also prioritizes value over status because its `operator bool` and `operator *` works over value. It's clear that both designs assume that the value is more interesting to the caller than the error/status.
+The first justification point looks like the author's misunderstanding of `expected` concept what is partially caused by `expected` wording that opposes expected value and unexpected error. In fact, `expected` is well suited for expected errors. It worth to mention that `status_value` also prioritizes value over status because its `operator bool` and `operator *` works over value. It's clear that both designs assume that the user is more interested in the value rather than in the error/status.
 
 The second justification point is purely theoretical at the moment because concurrent queue proposal does not require to return any status except for `success` along the value. I think that for cases when value needs to be accompanied by a status or other data it is better to use a pair of value and "status" like we already do, e.g. `map::insert` returns `pair<bool, iterator>`. I think that mixing success and error status values in one enum would be a bad idea anyway. This contradicts the fundamental concept that operation may return either a result or an error, the concept that C++ and most other programming languages have deeply adoped. Instead, in case if queue needs to return multiple success "statuses" I would prefer a combination of `expected` and `pair<Value, Status>` so the pair become the expected result of the operation:
 
@@ -31,6 +31,6 @@ template<class T>
 auto queue::pop() -> expected<pair<T, contention_type>, queue_op_error>;
 ```
 
-In conclusion, I don't think that there is a room for new *standard* class `status_value`. Adding `status_value` does not replace `expected` so the latter will be eventually added anyway. In the meantime, `expected` class covers more use-cases including ones where `status_value` can be used so it's clearly a more universal. And I'd rather see less number of error handling approaches in the C++ standard than other way around. Remember, what's added to the standard stays in the standard[^1]!
+In conclusion, I don't think that there is a room for *standard fundamental* class `status_value`. Adding `status_value` does not replace `expected` so the latter will be eventually added anyway. In the meantime, `expected` class covers more use-cases including ones where `status_value` can be used so it's clearly a more universal. And I'd rather see less number of error handling approaches in the C++ standard than other way around. Remember, what's added to the standard stays in the standard[^1]!
 
 [^1]: Rare exceptions exist
