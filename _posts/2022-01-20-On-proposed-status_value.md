@@ -1,4 +1,8 @@
-# On proposed `status_value`
+---
+title: On proposed `status_value`
+layout: post
+tags: [c++, proposal, ranting]
+---
 
 There is proposal for [`status_value<Status, Value>`](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4233.html) class. This class is practically a syntax sugar on top of
 `pair<Status, optional<Value>>`, in other words it is an optional value enriched with non-optional status.
