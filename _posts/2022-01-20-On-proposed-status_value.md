@@ -9,6 +9,7 @@ The proposed design supposed to be used in the interface of proposed [concurrent
 enum class queue_op_status {success = 0, empty, full, closed, busy};
 
 // Returns either queue_op_status::success and value or an error status and no value
+template<class T>
 queue<T>::pop() -> status_value<queue_op_status, T>;
 ```
 
