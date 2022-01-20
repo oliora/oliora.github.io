@@ -14,7 +14,7 @@ auto queue<T>::pop() -> status_value<queue_op_status, T>;
 ```
 
 The `status_value` proposal admits that proposed design is very close to long time proposed [`expected`](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p0323r10.html) but justifies the need for separate class like `status_value` by two points:
-1. `expected` is designed to hold either a value or an (unexpected) error while the queue returns expected status so (as I understood it) using `expected` there would be conceptually wrong
+1. `expected` is designed to hold either a value or an unexpected error while the queue returns expected status so (as I understood it) using `expected` there would be conceptually wrong
 2. `status_value` allows to have more than one status to be associated with a value
 
 I think that justification for `status_value` does not hold well.
