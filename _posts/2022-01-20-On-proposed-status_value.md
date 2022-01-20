@@ -10,7 +10,7 @@ enum class queue_op_status {success = 0, empty, full, closed, busy};
 
 // Returns either queue_op_status::success and value or an error status and no value
 template<class T>
-queue<T>::pop() -> status_value<queue_op_status, T>;
+auto queue<T>::pop() -> status_value<queue_op_status, T>;
 ```
 
 The `status_value` proposal admits that proposed design is very close to long time proposed [`expected`](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p0323r10.html) but justifies the need for separate class like `status_value` by two points:
@@ -28,7 +28,7 @@ enum class queue_op_error {empty, full, closed, busy};
 enum class contention_type {low, high};
 
 template<class T>
-queue::pop() -> expected<pair<T, contention_type>, queue_op_error>;
+auto queue::pop() -> expected<pair<T, contention_type>, queue_op_error>;
 ```
 
 In conclusion, I don't think that there is a room for new *standard* class `status_value`. Adding `status_value` does not replace `expected` so the latter will be eventually added anyway. In the meantime, `expected` class covers more use-cases including ones where `status_value` can be used so it's clearly a more universal. And I'd rather see less number of error handling approaches in the C++ standard than other way around. Remember, what's added to the standard stays in the standard[^1]!
