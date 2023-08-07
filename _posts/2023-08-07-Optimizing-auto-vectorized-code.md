@@ -679,11 +679,10 @@ Benchmarks was run multiple time in a row for each algorithm and input combinati
 ![Benchmark results for Intel Xeon](/img/2023-08-06/1-intel-icelake-aws-wp.png)
 
 Notes:
-1. As you can see the manual vectorization produces a faster code than automatic vectorization by a factor of 1.3-4 for the same step size
+1. The manual vectorization produced a faster code than automatic one by a factor of 1.3-4 for the same step size
 2. Using `short` instead of `signed char` for step counter degrades speed by a factor of two on AMD platform, less on Intel platform
 3. Using `int` instead of `short` for step counter degrades speed further by a factor of two on AMD platform, less on Intel platform
 4. Vectorized implementations shows different speed on both platforms, non-vectorized shows the same performance
-5. Combining check for the null character with the character counting is faster than calling `strlen` first and then do a second pass to count characters over an input of known size by 60-90%
 6. AMD EPYC and Intel Xeon show similar relative performance of different vectorized implementations. AMD platform shows better absolute proformance but this can be attributed to the fact that Intel being an AWS instance has worse RAM setup.
 
 ### Large input (`long.txt`, 320 MiB)
@@ -710,6 +709,7 @@ For the long input `long.txt` for `manualVec_128` the execution is bound on `Bac
 
 Notes:
 1. (Not surprisingly) solution that takes the input size is in most cases faster than solution that relies on null-terminated input by 10-80%
+2. Combining check for the null character with the character counting is faster than calling `strlen` first and then do a second pass to count characters over an input of known size by 60-90%
 
 ### Large input (`long.txt`, 320 MiB)
 
