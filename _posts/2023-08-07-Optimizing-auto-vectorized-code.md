@@ -272,7 +272,7 @@ shown on the above picture.
 
 Now the program has all the per character counters accumulated in the lowest 8 bytes of the register and it can do a so called horizontal operation: sum up all this 8 counters together. There is no instruction to do exactly this so the program uses `vpsadbv` described above:
 
-![Diagram of how devectorization done for character counters (part 2)](/img/2023-08-06/inalize-fold-counters.png){:width="599px"}
+![Diagram of how devectorization done for character counters (part 2)](/img/2023-08-06/finalize-fold-counters.png){:width="599px"}
 
 After this the program extracts the result's lowest byte to a general purpose register it treats it as a `signed char`. The extracted number represents the step counter `step_r`. At the end of each cycle the program adds it to the result counter `r`.
 
