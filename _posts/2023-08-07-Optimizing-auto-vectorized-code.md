@@ -254,7 +254,7 @@ Before starting the main loop, the program sets each byte of (32-byte register) 
 
 The it calculates per character counters by comparing each byte in input registers with `'p'` and `'s'`. Each comparison is done by a single instruction `vpcmpeqb` which compares the operands byte by byte, then the results of comparisons substituted from each other byte by byte (`vpsubb`):
 
-![Diagram of how vpcmpeqb is used to match characters](/img/2023-08-06/calc-char-counters.png){:height="599px" width="513px"}
+![Diagram of how vpcmpeqb is used to match characters](/img/2023-08-06/calc-char-counters.png){:width="599px" height="513px"}
 
 Note that the result of `vpcmpeqb` is `0xFF` if bytes are equal, `0` otherwise. Note that `0xFF` is `-1` which means that the character counters are negated.
 so we need to revese the order of operands for subtraction.
@@ -265,14 +265,14 @@ In our code we have two input registers so after comparing and subtracting count
 
 After the program has calculated per character counters for the whole input it "devectorizes" (or "folds") it into a scalar counter to add it to the result counter `r`. It does it in two steps, first it adds up 8-byte parts into the lowest 8-byte part of the register. The addition is done by `vpaddb` which adds inputs byte by byte.
 
-![Diagram of how devectorization done for character counters (part 1)](/img/2023-08-06/prefold-counters.png){:height="599px" width="249px"}
+![Diagram of how devectorization done for character counters (part 1)](/img/2023-08-06/prefold-counters.png){:width="599px" height="249px"}
 
 In our code we first add the high 16-byte half of the register to the lower one with using `vextracti128` and `vpaddb` and then do the 8 byte shift
 shown on the above picture.
 
 Now the program has all the per character counters accumulated in the lowest 8 bytes of the register and it can do a so called horizontal operation: sum up all this 8 counters together. There is no instruction to do exactly this so the program uses `vpsadbv` described above:
 
-![Diagram of how devectorization done for character counters (part 2)](/img/2023-08-06/inalize-fold-counters.png){:height="599px" width="312px"}
+![Diagram of how devectorization done for character counters (part 2)](/img/2023-08-06/inalize-fold-counters.png){:width="599px" height="312px"}
 
 After this the program extracts the result's lowest byte to a general purpose register it treats it as a `signed char`. The extracted number represents the step counter `step_r`. At the end of each cycle the program adds it to the result counter `r`.
 
@@ -280,13 +280,13 @@ After this the program extracts the result's lowest byte to a general purpose re
 
 Presense of the null character is detected in a similar way. First, the input registers are compared byte by byte with precreated vector of zeroes:
 
-![Diagram of how vpcmpeqb to check for the terminating null](/img/2023-08-06/calc-null-flags.png){:height="599px" width="193x"}
+![Diagram of how vpcmpeqb to check for the terminating null](/img/2023-08-06/calc-null-flags.png){:width="599px" height="193px"}
 
 In our code we have two input registers so after comparing the first input register with zeroes, the program will do the same for the second one then it will bitwise OR both results with using `vpor` instruction.
 
 Once per character flags are calculated in a vector register the program devectorizes it into a general purpose register so it can do a conditional jump. There are several ways of doing it but they're all more or less about bitwise OR-ing (with `vpor`) all 8-byte parts of the register together:
 
-![Diagram of how devectorization done for null character flags](/img/2023-08-06/fold-null-flags.png){:height="599px" width="350px"}
+![Diagram of how devectorization done for null character flags](/img/2023-08-06/fold-null-flags.png){:width="599px" height="350px"}
 
 In our code we also bitwise OR the high 16-byte half of the register to the lower one with using `vextracti128` and `vpor`.
 
@@ -662,7 +662,7 @@ For Intel Xeon the code was cross-compiled with the flags: `-std=c++20 -O3 -ffas
 ```
 </details>
 
-Note that the code for Intel Xeon was compiled with AVX-512 instructions but without allowing compiler to use 512-bit registers (no `-mprefer-vector-width=512` flag).
+Note that the code for Intel Xeon was compiled with AVX-512 instructions but without allowing compiler to use 512-bit registers (no `-mprefer-vector-height=512` flag).
 
 Benchmarks were run for two inputs:
 
@@ -735,7 +735,7 @@ Notes:
 
 # Future work
 
-1. Analyzing auto-vectorized code when 512-bit auto-vectorization is enabled (`-mprefer-vector-width=512` and AVX-512 [feature flags](https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html))
+1. Analyzing auto-vectorized code when 512-bit auto-vectorization is enabled (`-mprefer-vector-height=512` and AVX-512 [feature flags](https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html))
 2. Manual optimization with using AVX-512 instruction set
 3. Force compiler to produce auto-vectorized code performing as the manually optimized one without using intrinsic functions or assembler
 4. Run AMD μProf to find bottlenecks on AMD CPU to conclude the bottleneck findings for Intel CPU
