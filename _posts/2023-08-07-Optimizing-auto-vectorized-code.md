@@ -23,7 +23,7 @@ Table of contents:
 
 # Introduction
 
-In this post I will analize a piece of C code [automatically vectorized](https://en.wikipedia.org/wiki/Automatic_vectorization) by GCC and improve its performance by 1.3x-4x by doing manual vectorization with using C++ and SIMD intrinsic functions.
+In this post I will analyze a piece of C code [automatically vectorized](https://en.wikipedia.org/wiki/Automatic_vectorization) by GCC and improve its performance by 1.3x-4x by doing manual vectorization with using C++ and SIMD intrinsic functions.
 
 This post hopefully will be useful for people who are interested in the topic of code vectorization and low level code optimization but experts in the topic can hardly find anything new in this post.
 
