@@ -25,7 +25,7 @@ Table of contents:
 
 # Introduction
 
-In this post I will analyze a piece of C code [automatically vectorized](https://en.wikipedia.org/wiki/Automatic_vectorization) by GCC and improve its performance by 1.3x-4x by doing manual vectorization with using C++ and SIMD intrinsic functions.
+In this post I will analyze a piece of C code [automatically vectorized](https://en.wikipedia.org/wiki/Automatic_vectorization) by GCC and improve its performance up to 1.9x by doing manual vectorization with using C++ and SIMD intrinsic functions.
 
 This post hopefully will be useful for people who are interested in the topic of code vectorization and low level code optimization but experts in the topic can hardly find anything new in this post.
 
@@ -621,8 +621,7 @@ inline int manualVec(const char* input) noexcept {
 ```
 [Compiler Explorer](https://godbolt.org/z/vczPExob7)
 
-I've benchmarked `manualVec` for different step size and found that it wins over original auto-vectorized version by a factor of of 1.3-4.
-That's enough optimization for this time. I'm pretty sure that this code can be optimized even further, especially if AVX-512 is considered but that's an exercise for another time or person.
+I've benchmarked `manualVec` for different step size and found that it wins over original auto-vectorized version by almost a factor of two and decided to stop there. I'm pretty sure that it can be optimized even further with doing in-depth profiling and/or using AVX-512 instructions but that's an exercise for another time or person.
 
 Please check the next section for graphs and other benchmark results.
 
@@ -681,11 +680,10 @@ Benchmarks was run multiple time in a row for each algorithm and input combinati
 ![Benchmark results for Intel Xeon](/img/2023-08-06/1-intel-icelake-aws-wp.png)
 
 Notes:
-1. The manual vectorization produced a faster code than automatic one by a factor of 1.3-4 for the same step size
+1. The manually vectorized code is faster than the original auto-vectorized code (`autoVec_64_Orig`) by 1.35x-1.9x depending on platform and manually vectorized code step size.
 2. Using `short` instead of `signed char` for step counter degrades speed by a factor of two on AMD platform, less on Intel platform
 3. Using `int` instead of `short` for step counter degrades speed further by a factor of two on AMD platform, less on Intel platform
-4. Vectorized implementations shows different speed on both platforms, non-vectorized shows the same performance
-6. AMD EPYC and Intel Xeon show similar relative performance of different vectorized implementations. AMD platform shows better absolute proformance but this can be attributed to the fact that Intel being an AWS instance has worse RAM setup.
+4. AMD EPYC and Intel Xeon show similar relative performance of different vectorized implementations. AMD platform shows better absolute proformance which can be explained by the fact that Intel platform is an AWS instance with worse RAM setup.
 
 ### Large input (`long.txt`, 320 MiB)
 
@@ -693,14 +691,14 @@ Notes:
 ![Benchmark results for Intel Xeon](/img/2023-08-06/1-intel-icelake-aws-long.png)
 
 Notes:
-1. When the input size is bigger than the cache size then there is a significant slowdown for all vectorized algorithms and they show more similar performance.
-2. There is no slowdown for non-vectorized algorithms.
+1. When the input size is bigger than the cache size then there is a significant slowdown for all vectorized algorithms and they show less diffference in speed. The're still significantly faster than non-vectorized solutions
+2. There is no slowdown for non-vectorized solutions
 
 I've run `toplev` from [pmu-tools](https://github.com/andikleen/pmu-tools) on Intel Xeon for both inputs to find where is a performance bottleneck.
 
-For the small input `wp.txt` for all step sizes the execution is bound on `Backend_Bound.Core_Bound.Ports_Utilization.Ports_Utilized_2` and `Backend_Bound.Core_Bound.Ports_Utilization.Ports_Utilized_3m` which simply means that the core is fully utilizing execution ports with executing 2+ uops per cycle, or even simplier, it is CPU bound.
+For the small input `wp.txt` for all step sizes the execution is bound on `Backend_Bound.Core_Bound.Ports_Utilization.Ports_Utilized_2` and `Backend_Bound.Core_Bound.Ports_Utilization.Ports_Utilized_3m` which simply means that the core fully utilizes some execution ports while executing 2+ uops per cycle, or even simplier, it is CPU bound.
 
-For the long input `long.txt` for `manualVec_128` the execution is bound on `Backend_Bound.Memory_Bound.L2_Bound` which means L1 cache misses and for `manualVec_1024` it is bound on `Backend_Bound.Memory_Bound.DRAM_Bound.MEM_Bandwidth` which simply means loading data from DRAM. 
+For the long input `long.txt` for `manualVec_128` the execution is bound on `Backend_Bound.Memory_Bound.L2_Bound` which means L1 cache misses and for `manualVec_1024` it is bound on `Backend_Bound.Memory_Bound.DRAM_Bound.MEM_Bandwidth` which simply means loading data from the main memory. 
 
 ## Known size input
 
@@ -710,8 +708,8 @@ For the long input `long.txt` for `manualVec_128` the execution is bound on `Bac
 ![Benchmark results for Intel Xeon](/img/2023-08-06/2-intel-icelake-aws-wp.png)
 
 Notes:
-1. (Not surprisingly) solution that takes the input size is in most cases faster than solution that relies on null-terminated input by 10-80%
-2. Combining check for the null character with the character counting is faster than calling `strlen` first and then do a second pass to count characters over an input of known size by 60-90%
+1. For the same step size solution that takes the input size is faster than solution that relies on null-terminated input by 1.02x-1.81x
+2. For the same step size `manualVec` is faster `manualVecStrlen` by 1.19x-1.86x except for step size 32 on AMD platform for which `manualVecStrlen` is faster than `manualVec` by 1.04x.
 
 ### Large input (`long.txt`, 320 MiB)
 
@@ -719,21 +717,20 @@ Notes:
 ![Benchmark results for Intel Xeon](/img/2023-08-06/2-intel-icelake-aws-long.png)
 
 Notes:
-1. Same as for null-terminated input: when the input size is bigger than the cache size then there is a significant slowdown for all vectorized algorithms and they show more similar performance.
+1. Same as for the null-terminated input: when the input size is bigger than the cache size then there is a significant slowdown for all vectorized algorithms and they show less diffference in speed except for `manualVecStrlen`. The're still significantly faster than non-vectorized solutions
+2. `manualVecStrlen` become slower than `manualVec` on every step size
 
 # Conclusion
 
-1. (Not surprizingly) manual vectorization produces a faster code than automatic vectorization by a factor of 1.3-4 for the same step size
+1. (Not surprizingly) the manually vectorized code is faster than the original auto-vectorized code (`autoVec_64_Orig`) by 1.35x-1.9x depending on platform and manually vectorized code step size.
 2. When input is larger than the cache size then vectorized algorithms become bound by the RAM reading speed and show similar performance
 3. Non-vectorized algorithms perform worse than vectorized ones by a factor of 10-60 when input fits into the cache and by a factor of 10-20 when input does not fit into the cache. Performance of this algorithms does not depend on the input size because they're never bound by the RAM reading speed
-4. (Not surprizingly) It's possible to achieve better performance if size of the input is known in advance, the win is between 10 and 80%. The implementation is also less complex in this case.
+4. In all but one scenarios better performance (by 1.19x-1.86x) was achieved if size of the input is known in advance. The implementation is also less complex in this case.
 5. The best step size for my manually vectorized implementation is between 256 and 1024
 6. AMD EPYC and Intel Xeon show similar relative performance of different implementations. AMD platform shows better absolute proformance but this may be simply attributed to the fact that Intel machine is an AWS instance with unknown memory setup
 7. GCC/C++ compilers are spectacularly creative with auto-vectorization
-8. Auto-vectorization as many other types of compiler optimizations is fragile. E.g. innocently looking change of a variable type
-   has decreased performance by a factor of 2
-9. Using intrinsics instead of assembler is handy. It allows to concentrate on algorithm vectorization itself and delegate
-   to the compiler the low-level machinery like register assignment and (hopefully optimal) instruction reordering
+8. Auto-vectorization as many other types of compiler optimizations is fragile. E.g. innocently looking change of a variable type has decreased performance by a factor of 2
+9. Using intrinsics instead of assembler is handy. It allows to concentrate on algorithm vectorization itself and delegate to the compiler the low-level machinery like register assignment and (hopefully optimal) instruction reordering
 
 # Future work
 
@@ -759,3 +756,10 @@ Software performance analyzers:
 1. [pmu-tools](https://github.com/andikleen/pmu-tools) - an easy to use performance analyzer for Intel CPUs
 2. [AMD μProf](https://www.amd.com/en/developer/uprof.html) (uProf, "MICRO-prof") - AMD's official profiler for AMD CPUs
 3. [Intel VTune Profiler](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html) - Intel's official profiler for Intel CPUs
+
+**Updates**:
+
+2023-08-07:
+- Fixed typos
+- Fixed errors in relative performance numbers
+- Rephrased notes for benchmark results
