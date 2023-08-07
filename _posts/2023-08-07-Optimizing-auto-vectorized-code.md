@@ -174,7 +174,7 @@ The first and the last parts of the function are nothing special so we will only
 
 Below is the assembly of the main loop of `autoVec_64_Orig`. I've reordered some operations to keep logically related parts together and removed few unrelated bits.
 
-```asm
+```nasm
         ; Start of the main loop
         ; Set all 256 bits of ymm4 and ymm5 registers to zero
         vpxor   xmm4, xmm4, xmm4
