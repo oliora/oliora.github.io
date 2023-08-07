@@ -254,7 +254,7 @@ Before starting the main loop, the program sets each byte of (32-byte register) 
 
 The it calculates per character counters by comparing each byte in input registers with `'p'` and `'s'`. Each comparison is done by a single instruction `vpcmpeqb` which compares the operands byte by byte, then the results of comparisons substituted from each other byte by byte (`vpsubb`):
 
-![Diagram of how vpcmpeqb is used to match characters](/img/2023-08-06/calc-char-counters.png){:width="599px"}
+![Diagram of how vpcmpeqb is used to match characters](/img/2023-08-06/calc-counters.png){:width="599px"}
 
 Note that the result of `vpcmpeqb` is `0xFF` if bytes are equal, `0` otherwise. Note that `0xFF` is `-1` which means that the character counters are negated.
 so we need to revese the order of operands for subtraction.
