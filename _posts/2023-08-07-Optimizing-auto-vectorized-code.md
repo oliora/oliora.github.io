@@ -15,6 +15,8 @@ Table of contents:
     * [Performance effect of the step counter type](#performance-effect-of-the-step-counter-type)
 * [Manual optimization of auto-vectorized code](#manual-optimization-of-auto-vectorized-code)
 * [Benchmark results](#benchmark-results)
+    * [Null-terminated input](#null-terminated-input)
+    * [Known size input](#known-size-input)
 * [Conclusion](#conclusion)
 * [Future work](#future-work)
 * [Links](#links)
@@ -671,7 +673,7 @@ Benchmarks were run for two inputs:
 
 Benchmarks was run multiple time in a row for each algorithm and input combination: 10 runs of 10 passes per run for `wp.txt` and 0 runs of 1 pass per run `long.txt`. The best (max speed) result was choosen. Benchmarks were run pinned to an isolated core.
 
-## Comparison of processing speed for null-terminated input
+## Null-terminated input
 
 ### Small input (`wp.txt`, 3.2 MiB)
 
@@ -700,7 +702,7 @@ For the small input `wp.txt` for all step sizes the execution is bound on `Backe
 
 For the long input `long.txt` for `manualVec_128` the execution is bound on `Backend_Bound.Memory_Bound.L2_Bound` which means L1 cache misses and for `manualVec_1024` it is bound on `Backend_Bound.Memory_Bound.DRAM_Bound.MEM_Bandwidth` which simply means loading data from DRAM. 
 
-## Comparison of processing speed for input with known size
+## Known size input
 
 ### Small input (`wp.txt`, 3.2 MiB)
 
