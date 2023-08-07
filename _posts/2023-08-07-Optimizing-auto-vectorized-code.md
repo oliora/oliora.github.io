@@ -254,7 +254,7 @@ Before starting the main loop, the program sets each byte of (32-byte register) 
 
 ## Step counter calculation
 
-The it calculates per character counters by comparing each byte in input registers with `'p'` and `'s'`. Each comparison is done by a single instruction `vpcmpeqb` which compares the operands byte by byte, then the results of comparisons substituted from each other byte by byte (`vpsubb`):
+The program calculates per character counters by comparing each byte in input registers with `'p'` and `'s'`. Each comparison is done by a single instruction `vpcmpeqb` which compares the operands byte by byte, then the results of comparisons substituted from each other byte by byte (`vpsubb`):
 
 ![Diagram of how vpcmpeqb is used to match characters](/img/2023-08-06/calc-counters.png){:width="599px"}
 
@@ -269,8 +269,7 @@ After the program has calculated per character counters for the whole input it "
 
 ![Diagram of how devectorization done for character counters (part 1)](/img/2023-08-06/prefold-counters.png){:width="599px"}
 
-In our code we first add the high 16-byte half of the register to the lower one with using `vextracti128` and `vpaddb` and then do the 8 byte shift
-shown on the above picture.
+In our code we first add the high 16-byte half of the counters register to the lower one with using `vextracti128` and `vpaddb` and then do the 8 byte shift shown on the above picture.
 
 Now the program has all the per character counters accumulated in the lowest 8 bytes of the register and it can do a so called horizontal operation: sum up all this 8 counters together. There is no instruction to do exactly this so the program uses `vpsadbv` described above:
 
@@ -280,19 +279,19 @@ After this the program extracts the result's lowest byte to a general purpose re
 
 ## Null character detection
 
-Presense of the null character is detected in a similar way. First, the input registers are compared byte by byte with precreated vector of zeroes:
+Presense of the null character is detected in a way similar to counting characters. First, the input registers are compared byte by byte with precreated vector of zeroes:
 
 ![Diagram of how vpcmpeqb to check for the terminating null](/img/2023-08-06/calc-null-flags.png){:width="599px"}
 
 In our code we have two input registers so after comparing the first input register with zeroes, the program will do the same for the second one then it will bitwise OR both results with using `vpor` instruction.
 
-Once per character flags are calculated in a vector register the program devectorizes it into a general purpose register so it can do a conditional jump. There are several ways of doing it but they're all more or less about bitwise OR-ing (with `vpor`) all 8-byte parts of the register together:
+Once per character "null" flags are calculated in a vector register the program devectorizes it into a general purpose register so it can do a conditional jump. There are several ways of doing it but they're all more or less about bitwise OR-ing (with `vpor`) all 8-byte parts of the register together:
 
 ![Diagram of how devectorization done for null character flags](/img/2023-08-06/fold-null-flags.png){:width="599px"}
 
-In our code we also bitwise OR the high 16-byte half of the register to the lower one with using `vextracti128` and `vpor`.
+In our code we also bitwise OR the high 16-byte half of the per character "null" flags register to the lower half with using `vextracti128` and `vpor`.
 
-In our code the devectorization for null character detection looks more complex, e.g. it moves data from vector register to a general purpose register twice (High 8 bytes with `vpextrq rcx, xmm1, 1` then lower 8 bytes with `vmovq rdx, xmm0`). I have not researched why it is like that, probably compiler thinks that it performs faster than more trivial code but I can't see it in the benchmark results.
+In our code the devectorization for the null character detection looks more complex, e.g. it moves data from vector register to a general purpose register twice (High 8 bytes with `vpextrq rcx, xmm1, 1` then low 8 bytes with `vmovq rdx, xmm0`). I have not researched why it is like that, probably compiler thinks that it performs faster than more trivial code but I can't see this in the benchmark results.
 
 ## Performance effect of the step counter type
 
