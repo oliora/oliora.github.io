@@ -745,18 +745,17 @@ Notes:
 
 # Links
 
-1. Code and benchmark results from this post - https://github.com/oliora/habr-switches-perf-test
-2. Intel Intrinsics Guide - https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html
-3. x64 Cheat Sheet - https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf
-4. x86-64 Assembly Language Summary - https://docs.google.com/document/d/1hwABu-SL6u2cdhVkjOCUU6T0UyALujep1NfwYfQzWSo
-5. x86 and amd64 instruction reference - https://www.felixcloutier.com/x86/
-6. Latency tables - https://www.uops.info/table.html and http://instlatx64.atw.hu/
-7. Agner Fog's manuals on low level software optimization, contains a latency table and a lot of useful links - https://www.agner.org/optimize/
-8. Top-Down performance analysis methodology by Denis Bakhvalov - an introduction into Top-down Microarchitecture Analysis Method (TMAM) - https://easyperf.net/blog/2019/02/09/Top-Down-performance-analysis-methodology
-9. Intel 64 and IA-32 Architectures Optimization Reference Manual- http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-optimization-manual.html
+1. [Code and benchmark results on GitHub](https://github.com/oliora/habr-switches-perf-test)
+2. [Intel Intrinsics Guide](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html)
+3. [x64 Cheat Sheet](https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf) and [x86-64 Assembly Language Summary](https://docs.google.com/document/d/1hwABu-SL6u2cdhVkjOCUU6T0UyALujep1NfwYfQzWSo) - assembler refreshers
+5. [x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/)
+6. [Latency table](https://www.uops.info/table.html) and [another one](http://instlatx64.atw.hu/)
+7. [Agner Fog's manuals on low level software optimization](https://www.agner.org/optimize/), contains a latency table and a lot of useful links
+8. Denis Bakhvalov [*Top-Down performance analysis methodology*](https://easyperf.net/blog/2019/02/09/Top-Down-performance-analysis-methodology) - an introduction into Top-down Microarchitecture Analysis Method (TMAM)
+9. [Intel 64 and IA-32 Architectures Optimization Reference Manual](http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-optimization-manual.html) 
 
 Software performance analyzers:
 
-1. pmu-tools - an easy to use performance analyzer for Intel CPUs - https://github.com/andikleen/pmu-tools
-2. AMD μProf (uProf, "MICRO-prof") - AMD's official profiler for AMD CPUs - https://www.amd.com/en/developer/uprof.html
-3. Intel VTune Profiler - Intel's official profiler for Intel CPUs - https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html
+1. [pmu-tools](https://github.com/andikleen/pmu-tools) - an easy to use performance analyzer for Intel CPUs
+2. [AMD μProf](https://www.amd.com/en/developer/uprof.html) (uProf, "MICRO-prof") - AMD's official profiler for AMD CPUs
+3. [Intel VTune Profiler](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html) - Intel's official profiler for Intel CPUs
