@@ -58,7 +58,7 @@ Let's take a look on what is the task that the post author was trying to optimiz
 int naive(const char *input) {
     int res = 0;
     while (true) {
-        auto c = *input++;
+        char c = *input++;
         switch (c) {
         case 0:
             return res;
