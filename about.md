@@ -8,7 +8,7 @@ permalink: /about/
 
 Hi! My name is **Andrey Upadyshev**. You may also know me as **Oliora**.
 
-I'm a professional software developer for almost 20 years, passionated about C++, software architecture and high performance.
+I'm a professional software developer for more than 20 years, passionated about C++, software architecture and high performance.
 I worked at many companies in different domains with having C++ as my main programming language for most of the time. I'm in love and hate relation with C++ and esspecially interested in simulataneous rise and fade of the language.
 
 This blog was created to share some of my findings, thoughts and ranting about C++ and, sometimes, the other tech.
